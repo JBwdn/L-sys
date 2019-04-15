@@ -1,17 +1,17 @@
 # Dependencies
 from turtle import *
 
-# TODO: need to pull and push direction as well as position with [ and ] bits - i think this is the error
+# TODO: system to save each bit in the resulting paragraph as a vector and visualise using matplotlib.pyplot.quiver
 
 # Parameters:
 variables = ["X", "F"]
 constants = ["[", "]", "+", "-"]
 axiom = "X"
-rules = ["XF+[[X]-X]-F[-FX]+X", "FFF"] #(X → F+[[X]-X]-F[-FX]+X), (F → FF)
-N = 6
+rules = ["XF+[[X]-X]-F[-FX]+X)", "FFF"]
+N = 8
 length = 5
 lengthChange = 0
-angle = 25
+angle = 18
 position = "bottom" # middle/bottom
 mode = "single" # single/continuous
 
@@ -32,6 +32,7 @@ def generate(sentence, rules, constants):
 # Function: Draw using turtle
 def turtleDraw(commandString, variables, length, angle):
     savedCoords = []
+    savedDir = []
     pushcount = 0
     for i in commandString:
         if i in variables:
@@ -42,15 +43,18 @@ def turtleDraw(commandString, variables, length, angle):
             right(angle)
         elif i == "[":
             savedCoords.append(pos())
+            savedDir.append(heading())
         elif i == "]":
             penup()
-            setpos(savedCoords[pushcount])
+            setpos(savedCoords[-1])
+            setheading(savedDir[-1])
+            del savedCoords[-1]
+            del savedDir[-1]
             pushcount += 1
             pendown()
 
-# Function: Initialise
+# Function: Initialise canvas
 def init(pos):
-    #begin_fill()
     hideturtle()
     penup()
     if pos == "bottom":
@@ -64,13 +68,11 @@ def init(pos):
 # Execute:
 init(position)
 paragraph = axiom
-
 if mode == "single":
     for i in range(N):
         newparagraph = generate(paragraph, rules, constants)
         paragraph = newparagraph
     turtleDraw(paragraph, variables, length, angle)
-
 elif mode == "continuous":
     for i in range(N):
         turtleDraw(paragraph, variables, length, angle)
@@ -78,4 +80,5 @@ elif mode == "continuous":
         paragraph = newparagraph
         length += lengthChange
 
+print(paragraph)
 done()
