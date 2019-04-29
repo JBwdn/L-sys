@@ -1,18 +1,16 @@
-# Dependencies
-from turtle import *
-
-# TODO: system to save each bit in the resulting paragraph as a vector and visualise using matplotlib.pyplot.quiver
+#!/Users/Jake/anaconda3/bin/python
+import turtle
 
 # Parameters:
-variables = ["X", "F"]
-constants = ["[", "]", "+", "-"]
-axiom = "X"
-rules = ["XF+[[X]-X]-F[-FX]+X)", "FFF"]
+variables = ["0", "1"]
+constants = ["+", "-", "[", "]"]
+axiom = "0"
+rules = ["01+0+1", "10-1-0"]
 N = 8
-length = 5
+length = 2
 lengthChange = 0
-angle = 18
-position = "bottom" # middle/bottom
+angle = 60
+position = "lowleft" # middle/low/lowright/lowleft
 mode = "single" # single/continuous
 
 # Function: Generate L-system
@@ -36,49 +34,61 @@ def turtleDraw(commandString, variables, length, angle):
     pushcount = 0
     for i in commandString:
         if i in variables:
-            forward(length)
+            turtle.forward(length)
         elif i == "-":
-            left(angle)
+            turtle.left(angle)
         elif i == "+":
-            right(angle)
+            turtle.right(angle)
         elif i == "[":
             savedCoords.append(pos())
             savedDir.append(heading())
         elif i == "]":
-            penup()
-            setpos(savedCoords[-1])
-            setheading(savedDir[-1])
+            turtle.penup()
+            turtle.setpos(savedCoords[-1])
+            turtle.setheading(savedDir[-1])
             del savedCoords[-1]
             del savedDir[-1]
             pushcount += 1
-            pendown()
+            turtle.pendown()
 
 # Function: Initialise canvas
 def init(pos):
-    hideturtle()
-    penup()
-    if pos == "bottom":
-        right(90)
-        forward(350)
-        left(180)
-    else:
-        left(90)
-    pendown()
+    turtle.hideturtle()
+    turtle.penup()
+    if pos == "low":
+        turtle.right(90)
+        turtle.forward(350)
+        turtle.left(180)
+    elif pos == "middle":
+        turtle.left(90)
+    elif pos == "lowright":
+        turtle.right(90)
+        turtle.forward(350)
+        turtle.left(90)
+        turtle.forward(350)
+        turtle.left(90)
+    elif pos == "lowleft":
+        turtle.right(90)
+        turtle.forward(350)
+        turtle.right(90)
+        turtle.forward(350)
+        turtle.left(180)
+    turtle.pendown()
 
-# Execute:
-init(position)
-paragraph = axiom
-if mode == "single":
-    for i in range(N):
-        newparagraph = generate(paragraph, rules, constants)
-        paragraph = newparagraph
-    turtleDraw(paragraph, variables, length, angle)
-elif mode == "continuous":
-    for i in range(N):
+# Main Function:
+if __name__ == "__main__":
+    init(position)
+    paragraph = axiom
+    if mode == "single":
+        for i in range(N):
+            newparagraph = generate(paragraph, rules, constants)
+            paragraph = newparagraph
         turtleDraw(paragraph, variables, length, angle)
-        newparagraph = generate(paragraph, rules, constants)
-        paragraph = newparagraph
-        length += lengthChange
-
-print(paragraph)
-done()
+    elif mode == "continuous":
+        for i in range(N):
+            turtleDraw(paragraph, variables, length, angle)
+            newparagraph = generate(paragraph, rules, constants)
+            paragraph = newparagraph
+            length += lengthChange
+    print(paragraph)
+    done()
