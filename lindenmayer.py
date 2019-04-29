@@ -1,4 +1,4 @@
-#!/Users/Jake/anaconda3/bin/python
+#!/usr/bin/env python
 import turtle
 
 # Parameters:
