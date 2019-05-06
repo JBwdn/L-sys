@@ -6,26 +6,26 @@ variables = ["0", "1"]
 constants = ["+", "-", "[", "]"]
 axiom = "1"
 rules = ["11+0++0-1--11-0+", "0-1+00++0+1--1-0"]
-N = 4
-length = 10
-lengthChange = 0
+N = 5
+length = 2
 angle = 60
-position = "middle" # middle/low/lowright/lowleft
-mode = "single" # single/continuous
+position = "middle"  # middle/low/lowright/lowleft
+
 
 # Function: Generate L-system
 def generate(sentence, rules, constants):
     nextSentence = ""
-    for i in range(0,len(sentence)):
+    for i in range(0, len(sentence)):
         bit = sentence[i]
         # Check if bit is in constants or variables:
         if bit not in constants:
-            for j in range(0,len(rules)):
+            for j in range(0, len(rules)):
                 if bit == rules[j][0]:
                     nextSentence += rules[j][1:]
         else:
             nextSentence += bit
     return nextSentence
+
 
 # Function: Draw using turtle
 def turtleDraw(commandString, variables, length, angle):
@@ -50,6 +50,8 @@ def turtleDraw(commandString, variables, length, angle):
             del savedDir[-1]
             pushcount += 1
             turtle.pendown()
+    turtle.done()
+
 
 # Function: Initialise canvas
 def init(pos):
@@ -75,20 +77,13 @@ def init(pos):
         turtle.left(180)
     turtle.pendown()
 
+
 # Main Function:
 if __name__ == "__main__":
     init(position)
     paragraph = axiom
-    if mode == "single":
-        for i in range(N):
-            newparagraph = generate(paragraph, rules, constants)
-            paragraph = newparagraph
-        turtleDraw(paragraph, variables, length, angle)
-    elif mode == "continuous":
-        for i in range(N):
-            turtleDraw(paragraph, variables, length, angle)
-            newparagraph = generate(paragraph, rules, constants)
-            paragraph = newparagraph
-            length += lengthChange
+    for i in range(N):
+        newparagraph = generate(paragraph, rules, constants)
+        paragraph = newparagraph
+    turtleDraw(paragraph, variables, length, angle)
     print(paragraph)
-    turtle.done()
