@@ -79,11 +79,15 @@ def init(pos):
 
 
 # Main Function:
-if __name__ == "__main__":
-    init(position)
+def main(pos, axiom, N, rules, const, len, ang):
+    init(pos)
     paragraph = axiom
     for i in range(N):
-        newparagraph = generate(paragraph, rules, constants)
+        newparagraph = generate(paragraph, rules, const)
         paragraph = newparagraph
-    turtleDraw(paragraph, variables, length, angle)
+    turtleDraw(paragraph, variables, len, ang)
     print(paragraph)
+
+
+if __name__ == "__main__":
+    main(position, axiom, N, rules, constants, length, angle)
