@@ -1,3 +1,3 @@
 # L-sys
-
-Work in progress 04/19
+See: http://algorithmicbotany.org/papers/abop/abop-ch1.pdf
+Work in progress, begun 04/19

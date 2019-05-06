@@ -4,13 +4,13 @@ import turtle
 # Parameters:
 variables = ["0", "1"]
 constants = ["+", "-", "[", "]"]
-axiom = "0"
-rules = ["01+0+1", "10-1-0"]
-N = 8
-length = 2
+axiom = "1"
+rules = ["11+0++0-1--11-0+", "0-1+00++0+1--1-0"]
+N = 4
+length = 10
 lengthChange = 0
 angle = 60
-position = "lowleft" # middle/low/lowright/lowleft
+position = "middle" # middle/low/lowright/lowleft
 mode = "single" # single/continuous
 
 # Function: Generate L-system
@@ -40,8 +40,8 @@ def turtleDraw(commandString, variables, length, angle):
         elif i == "+":
             turtle.right(angle)
         elif i == "[":
-            savedCoords.append(pos())
-            savedDir.append(heading())
+            savedCoords.append(turtle.pos())
+            savedDir.append(turtle.heading())
         elif i == "]":
             turtle.penup()
             turtle.setpos(savedCoords[-1])
@@ -91,4 +91,4 @@ if __name__ == "__main__":
             paragraph = newparagraph
             length += lengthChange
     print(paragraph)
-    done()
+    turtle.done()
