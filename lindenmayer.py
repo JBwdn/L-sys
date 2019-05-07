@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import turtle
 
-# Parameters:
+# Default parameters:
 variables = ["0", "1"]
 constants = ["+", "-", "[", "]"]
 axiom = "1"
 rules = ["11+0++0-1--11-0+", "0-1+00++0+1--1-0"]
 N = 5
-length = 2
+length = 10
 angle = 60
 position = "middle"  # middle/low/lowright/lowleft
 
@@ -50,6 +50,7 @@ def turtleDraw(commandString, variables, length, angle):
             del savedDir[-1]
             pushcount += 1
             turtle.pendown()
+    turtle.update()
     turtle.done()
 
 
@@ -82,6 +83,7 @@ def init(pos):
 def main(pos, axiom, N, rules, const, len, ang):
     init(pos)
     paragraph = axiom
+    turtle.tracer(0, 0)
     for i in range(N):
         newparagraph = generate(paragraph, rules, const)
         paragraph = newparagraph
